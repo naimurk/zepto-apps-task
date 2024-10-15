@@ -158,25 +158,34 @@ const renderBooks = (books) => {
     const coverImage = book.formats["image/jpeg"] || "";
     const genres = book.subjects.join(", ") || "Unknown Genre";
     const bookID = book.id;
+    const thebook = {...book}
     // console.log(filteredBooks)
     // Create the card HTML
     const cardHTML = `
-      <div class="book-card max-w-sm mx-auto bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
-        <div class="relative">
-          <img src="${coverImage}" alt="Book Cover" class="book-cover w-full h-60 object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
-          <div class="absolute bottom-4 left-4 text-white">
-            <p class="font-semibold text-lg">ID: ${bookID}</p>
-          </div>
+    <div class="book-card max-w-sm mx-auto bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+      <div class="relative">
+        <img src="${coverImage}" alt="Book Cover" class="book-cover w-full h-60 object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
+        <div class="absolute bottom-4 left-4 text-white">
+          <p class="font-semibold text-lg">ID: ${bookID}</p>
         </div>
-        <div class="p-6">
-          <h2 class="book-title font-bold text-2xl text-gray-900 mb-3 hover:text-indigo-600 transition-colors duration-300">${book.title}</h2>
-          <p class="book-author text-md text-gray-700 mb-2">Author: <span class="font-medium text-gray-900">${authorName}</span></p>
-          <p class="book-genre text-sm text-gray-500 mb-4">Genre: ${genres}</p>
-          <button class="mt-4 w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-md shadow-md transition-all duration-300">Read More</button>
+        <!-- Love Icon for Wishlist -->
+        <div  onclick = "toggleWishlist(${bookID})" class="absolute top-4 right-4">
+          <i id="wishlist-icon-${bookID}" class="fa fa-heart ${
+        isInWishlist(bookID) ? "text-blue-500" : "text-white"
+    } cursor-pointer transition-colors duration-300" data-id="${bookID}"></i>
         </div>
       </div>
-    `;
+      <div class="p-6">
+        <h2 class="book-title font-bold text-2xl text-gray-900 mb-3 hover:text-indigo-600 transition-colors duration-300">${
+          book.title
+        }</h2>
+        <p class="book-author text-md text-gray-700 mb-2">Author: <span class="font-medium text-gray-900">${authorName}</span></p>
+        <p class="book-genre text-sm text-gray-500 mb-4">Genre: ${genres}</p>
+        <button class="mt-4 w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-md shadow-md transition-all duration-300">Read More</button>
+      </div>
+    </div>
+  `;
 
     // Append the card to the bookCardContainer
     bookCardContainer.innerHTML += cardHTML;
@@ -296,5 +305,45 @@ resetButton.addEventListener("click", () => {
   resetButton.style.display = "none";
   renderBooks(fetchedData.results); // Re-render books without any search filters
 });
+
+// Check if the book is in wishlist (localStorage)
+const isInWishlist = (bookID) => {
+  // const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  // return wishlist.some((book) => book.bookID === bookID);
+};
+
+// Toggle wishlist status (add/remove full book object in localStorage)
+const toggleWishlist = (bookId) => {
+  // console.log(book)
+  const findTheData = fetchedData?.results?.find((book) => book.id ===bookId)
+  console.log(findTheData)
+  // console.log("gekki")
+  // let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+  // const bookExists = wishlist.some((item) => item.bookID === book?.id);
+
+  // if (bookExists) {
+  //   // Remove the book from wishlist if it exists
+  //   wishlist = wishlist.filter((item) => item.bookID !== book.id);
+  //   document
+  //     .getElementById(`wishlist-icon-${book.id}`)
+  //     .classList.remove("text-blue-500");
+  //   document
+  //     .getElementById(`wishlist-icon-${book.id}`)
+  //     .classList.add("text-white");
+  // } else {
+  //   // Add the book to wishlist if it doesn't exist
+  //   wishlist.push(book);
+  //   document
+  //     .getElementById(`wishlist-icon-${book.id}`)
+  //     .classList.remove("text-white");
+  //   document
+  //     .getElementById(`wishlist-icon-${book.id}`)
+  //     .classList.add("text-blue-500");
+  // }
+
+  // // Save the updated wishlist to localStorage
+  // localStorage.setItem("wishlist", JSON.stringify(wishlist));
+};
 
 fetchBooks(); // Initial call to fetch books
