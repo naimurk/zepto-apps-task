@@ -158,7 +158,7 @@ const renderBooks = (books) => {
     const coverImage = book.formats["image/jpeg"] || "";
     const genres = book.subjects.join(", ") || "Unknown Genre";
     const bookID = book.id;
-    const thebook = {...book}
+    const thebook = { ...book };
     // console.log(filteredBooks)
     // Create the card HTML
     const cardHTML = `
@@ -172,7 +172,7 @@ const renderBooks = (books) => {
         <!-- Love Icon for Wishlist -->
         <div  onclick = "toggleWishlist(${bookID})" class="absolute top-4 right-4">
           <i id="wishlist-icon-${bookID}" class="fa fa-heart ${
-        isInWishlist(bookID) ? "text-blue-500" : "text-white"
+      isInWishlist(bookID) ? "text-blue-500" : "text-white"
     } cursor-pointer transition-colors duration-300" data-id="${bookID}"></i>
         </div>
       </div>
@@ -315,35 +315,35 @@ const isInWishlist = (bookID) => {
 // Toggle wishlist status (add/remove full book object in localStorage)
 const toggleWishlist = (bookId) => {
   // console.log(book)
-  const findTheData = fetchedData?.results?.find((book) => book.id ===bookId)
-  console.log(findTheData)
+  const findTheData = fetchedData?.results?.find((book) => book.id === bookId);
+  // console.log(findTheData)
   // console.log("gekki")
-  // let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
-  // const bookExists = wishlist.some((item) => item.bookID === book?.id);
+  const bookExists = wishlist.some((item) => item.id === bookId);
 
-  // if (bookExists) {
-  //   // Remove the book from wishlist if it exists
-  //   wishlist = wishlist.filter((item) => item.bookID !== book.id);
-  //   document
-  //     .getElementById(`wishlist-icon-${book.id}`)
-  //     .classList.remove("text-blue-500");
-  //   document
-  //     .getElementById(`wishlist-icon-${book.id}`)
-  //     .classList.add("text-white");
-  // } else {
-  //   // Add the book to wishlist if it doesn't exist
-  //   wishlist.push(book);
-  //   document
-  //     .getElementById(`wishlist-icon-${book.id}`)
-  //     .classList.remove("text-white");
-  //   document
-  //     .getElementById(`wishlist-icon-${book.id}`)
-  //     .classList.add("text-blue-500");
-  // }
+  if (bookExists) {
+    // Remove the book from wishlist if it exists
+    wishlist = wishlist.filter((item) => item.id !== bookId);
+    document
+      .getElementById(`wishlist-icon-${bookId}`)
+      .classList.remove("text-blue-500");
+    document
+      .getElementById(`wishlist-icon-${bookId}`)
+      .classList.add("text-white");
+  } else {
+    // Add the book to wishlist if it doesn't exist
+    wishlist.push(findTheData);
+    document
+      .getElementById(`wishlist-icon-${bookId}`)
+      .classList.remove("text-white");
+    document
+      .getElementById(`wishlist-icon-${bookId}`)
+      .classList.add("text-blue-500");
+  }
 
-  // // Save the updated wishlist to localStorage
-  // localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  // Save the updated wishlist to localStorage
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
 };
 
 fetchBooks(); // Initial call to fetch books
