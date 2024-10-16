@@ -5,7 +5,7 @@ let allBookshelves = [];
 let selectedSubject = JSON.parse(localStorage.getItem("selectedSubject")) || "";
 let selectedBookshelf =
   JSON.parse(localStorage.getItem("selectedBookshelf")) || "";
-
+let searchText = JSON.parse(localStorage.getItem("searchTerm")) || "";
 const booksPerPage = 32;
 const cardContainer = document.getElementById("cardContainer");
 const loadingContainer = document.getElementById("loading");
@@ -13,6 +13,7 @@ const bookCardContainer = document.getElementById("bookCard");
 const paginationContainer = document.getElementById("pagination");
 
 const searchInput = document.createElement("input");
+searchInput.value = searchText;
 const resetButton = document.createElement("button");
 // searchInput.value = "Dracula"
 // Dropdowns for subjects and bookshelves
@@ -147,19 +148,35 @@ const extractSubjectsAndBookshelves = (books) => {
 
 // Render books function
 const renderBooks = (books) => {
+  console.log("hello world");
   // console.log(books)
   // console.log(books)
   // Clear the bookCardContainer
   bookCardContainer.innerHTML = ``;
   // console.log(selectedSubject)
   // Filter based on selected subject and bookshelf
+  //  const searchText = localStorage.getItem("se")
+  // book.title.toLowerCase().includes(searchTerm) ||
+  // book.authors[0]?.name.toLowerCase().includes(searchTerm)
 
-  const filteredBooks = books.filter((book) => {
+  const filteredBooks = books?.filter((book) => {
+    const matchText =
+      searchText === "" ||
+      book.title
+        .toLowerCase()
+        .includes(
+          JSON.parse(localStorage.getItem("searchTerm")).toLowerCase()
+        ) ||
+      book.authors[0]?.name
+        .toLowerCase()
+        .includes(JSON.parse(localStorage.getItem("searchTerm")).toLowerCase());
+
     const matchesSubject =
-      selectedSubject === "" || book.subjects.includes(selectedSubject);
+      selectedSubject === "" || book?.subjects?.includes(selectedSubject);
     const matchesBookshelf =
-      selectedBookshelf === "" || book.bookshelves.includes(selectedBookshelf);
-    return matchesSubject && matchesBookshelf;
+      selectedBookshelf === "" ||
+      book?.bookshelves?.includes(selectedBookshelf);
+    return matchText && matchesSubject && matchesBookshelf;
   });
   //  console.log(filteredBooks)
   // Loop through each book in the provided data and create the card
@@ -270,6 +287,10 @@ const movePage = (pageNumber) => {
   loadingContainer.classList.remove("hidden");
   selectedBookshelf = "";
   selectedSubject = "";
+  searchText = "";
+  localStorage.setItem("selectedBookshelf", "");
+  localStorage.setItem("selectedSubject", "");
+  localStorage.setItem("searchTerm", "");
   currentPage = pageNumber;
   localStorage.setItem("pageNumber", JSON.stringify(pageNumber));
   // Clear the search input when moving to a new page
@@ -296,15 +317,15 @@ bookshelfDropdown.addEventListener("change", (e) => {
 // Event listener for search input
 searchInput.addEventListener("input", () => {
   const searchTerm = searchInput.value.toLowerCase();
-
   // Filter based on title or author
+  localStorage.setItem("searchTerm", JSON.stringify(searchInput.value));
   const filteredBooks = fetchedData.results.filter(
     (book) =>
       book.title.toLowerCase().includes(searchTerm) ||
       book.authors[0]?.name.toLowerCase().includes(searchTerm)
   );
   // console.log(filteredBooks);
-
+  // console.log("search term");
   renderBooks(filteredBooks);
 
   // Show or hide reset button based on search input
