@@ -16,75 +16,27 @@ const loadingContainer = document.getElementById("loading");
 const bookCardContainer = document.getElementById("bookCard");
 const paginationContainer = document.getElementById("pagination");
 
-const searchInput = document.createElement("input");
+const searchInput = document.getElementById("searchText");
 searchInput.value = searchText;
-const resetButton = document.createElement("button");
-// searchInput.value = "Dracula"
-// Dropdowns for subjects and bookshelves
-const subjectDropdown = document.createElement("select");
-// subjectDropdown.value = "Horror tales"
-const bookshelfDropdown = document.createElement("select");
+const resetButton = document.getElementById("reset");
 
-// Search input styling and placement
-searchInput.placeholder = "Search by title...";
-searchInput.classList.add(
-  "w-full",
-  "p-2",
-  "border",
-  "border-gray-300",
-  "rounded",
-  "mb-6",
-  "focus:outline-none",
-  "focus:ring-2",
-  "focus:ring-indigo-500"
-);
-cardContainer.insertBefore(searchInput, bookCardContainer);
+const subjectDropdown = document.getElementById("selectSubject");
 
-// Reset button styling and placement
-resetButton.textContent = "Reset";
-resetButton.classList.add(
-  "ml-2",
-  "p-2",
-  "bg-gray-300",
-  "hover:bg-gray-400",
-  "rounded",
-  "cursor-pointer",
-  "transition-colors",
-  "duration-300"
-);
+const bookshelfDropdown = document.getElementById("selectBookShelf");
 resetButton.style.display = "none";
-cardContainer.insertBefore(resetButton, bookCardContainer);
-
-// Subject dropdown styling
-subjectDropdown.classList.add(
-  "w-full",
-  "p-2",
-  "border",
-  "border-gray-300",
-  "rounded",
-  "mb-6"
-);
 subjectDropdown.innerHTML = `<option value="">Select Subject</option>`;
-cardContainer.insertBefore(subjectDropdown, bookCardContainer);
-
-// Bookshelf dropdown styling
-bookshelfDropdown.classList.add(
-  "w-full",
-  "p-2",
-  "border",
-  "border-gray-300",
-  "rounded",
-  "mb-6"
-);
 bookshelfDropdown.innerHTML = `<option value="">Select Bookshelf</option>`;
-cardContainer.insertBefore(bookshelfDropdown, bookCardContainer);
+const totalwishlist = document.getElementById("totalwishlist")
+totalwishlist.innerText = JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
 
 const urlSet = () => {
   const url = new URL(window.location);
-  url.searchParams.set("page", JSON.parse(localStorage.getItem("pageNumber")) || 1);
+  url.searchParams.set(
+    "page",
+    JSON.parse(localStorage.getItem("pageNumber")) || 1
+  );
   window.history.pushState({}, "", url);
 };
-// Fetch books function
 const fetchBooks = () => {
   // console.log(`Fetching data for page: ${currentPage}`); /// Add console log to see the current page
   fetch(`https://gutendex.com/books?page=${currentPage}`)
@@ -132,20 +84,15 @@ const extractSubjectsAndBookshelves = (books) => {
     });
   });
 
-  // console.log(allSubjects);
-  // console.log(allBookshelves)
 
-  // Populate subject dropdown
   subjectDropdown.innerHTML = `<option value="">Select Subject</option>`;
   allSubjects.forEach((subject) => {
     subjectDropdown.innerHTML += `<option value="${subject}">${subject}</option>`;
   });
 
-  // selectedSubject = "Horror tales"; // Your default subject
   subjectDropdown.value = selectedSubject;
   subjectDropdown.dispatchEvent(new Event("change"));
 
-  // Populate bookshelf dropdown
   bookshelfDropdown.innerHTML = `<option value="">Select Bookshelf</option>`;
   allBookshelves.forEach((bookshelf) => {
     bookshelfDropdown.innerHTML += `<option value="${bookshelf}">${bookshelf}</option>`;
@@ -302,10 +249,9 @@ const movePage = (pageNumber) => {
   localStorage.setItem("searchTerm", JSON.stringify(""));
   currentPage = pageNumber;
   localStorage.setItem("pageNumber", JSON.stringify(pageNumber));
-  // Clear the search input when moving to a new page
   searchInput.value = "";
   resetButton.style.display = "none";
-   urlSet()
+  urlSet();
   fetchBooks(); // Fetch new books for the selected page
 };
 
@@ -333,8 +279,7 @@ searchInput.addEventListener("input", () => {
       book.title.toLowerCase().includes(searchTerm) ||
       book.authors[0]?.name.toLowerCase().includes(searchTerm)
   );
-  // console.log(filteredBooks);
-  // console.log("search term");
+
   renderBooks(filteredBooks);
 
   // Show or hide reset button based on search input
@@ -388,8 +333,10 @@ const toggleWishlist = (bookId) => {
 
   // Save the updated wishlist to localStorage
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  totalwishlist.innerText = JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
+
 };
 
 fetchBooks();
-urlSet()
+urlSet();
 // Initial call to fetch books

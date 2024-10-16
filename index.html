@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="./style/index.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
 
     <script>
       tailwind.config = {
@@ -41,84 +48,93 @@
     </style>
   </head>
   <body class="bg-gray-50">
-    <header class="bg-white shadow-md">
-      <nav class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-        <!-- Left Side: Logo -->
-        <div class="flex items-center space-x-4 ">
-          <img src="./assets/Zepto-logo.avif" alt="Logo" class="">
-        </div>
-    
-        <!-- Middle: Search Bar & Select Inputs -->
-        <div class="flex gap-x-4 items-center  lg:w-[65%]">
-          <!-- Search Bar -->
-          <div class="relative flex items-center w-[50%]">
-            <!-- Cross Icon -->
-            <span class="absolute right-3 text-gray-400 cursor-pointer">
-              <i class="fa-solid fa-xmark"></i>
-            </span>
-          
-            <!-- Search Icon -->
-            <span class="absolute left-3 text-gray-400">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-          
-            <!-- Input Field -->
-            <input type="text" placeholder="Search..." class="pl-12 pr-4 py-3 rounded-md bg-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full">
+    <div id="loading" class="min-h-screen flex justify-center items-center">
+      <div class="loader"></div>
+    </div>
+    <div id="cardContainer" class="hidden">
+      <header class="bg-white shadow-md">
+        <nav
+          class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6"
+        >
+          <!-- Left Side: Logo -->
+          <div class="flex items-center space-x-4">
+            <img src="./assets/Zepto-logo.avif" alt="Logo" class="" />
           </div>
-          
-    
-          <!-- Select Input 1 -->
-          <select class="py-3 px-4 w-[25%] rounded-md bg-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option>Option 1</option>
-            <option>Option 2</option>
-          </select>
-    
-          <!-- Select Input 2 -->
-          <select class="py-3 px-4 rounded-md w-[25%] bg-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option>Option 1</option>
-            <option>Option 2</option>
-          </select>
-        </div>
-    
-        <!-- Right Side: Wishlist Icon -->
-        <div class="relative">
-          <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.232l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-          </svg>
-          <!-- Badge Count -->
-          <span class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">1</span>
-        </div>
-      </nav>
-    </header>
-    
-    <div id="content">
-      <div id="loading" class="flex justify-center items-center min-h-screen">
-        <p class="text-5xl">Loading...</p>
-      </div>
-      <!-- card container -->
-      <div id="cardContainer" class="hidden">
-        <!-- search bar -->
-        <!-- Search bar -->
-        <!-- <div class="flex justify-center mb-4">
-          <input
-            id="searchInput"
-            type="text"
-            placeholder="Search by title..."
-            class="w-1/2 p-2 border border-gray-300 rounded-md"
-            oninput="handleSearch()"
-          />
-          <button
-            id="resetButton"
-            class="ml-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md"
-            onclick="resetSearch()"
-          >
-            Reset
-          </button>
-        </div> -->
 
-        <div id="bookCard" class="grid grid-cols-3"></div>
+          <!-- Middle: Search Bar & Select Inputs -->
+          <div class="flex gap-x-4 items-center lg:w-[65%]">
+            <!-- Search Bar -->
+            <div class="relative flex items-center w-[50%]">
+              <!-- Cross Icon -->
+              <span
+                id="reset"
+                class="absolute right-3 text-gray-400 cursor-pointer"
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </span>
+
+              <!-- Search Icon -->
+              <span class="absolute left-3 text-gray-400">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </span>
+              <!-- Input Field -->
+              <input
+                id="searchText"
+                type="text"
+                placeholder="Search by tile..."
+                class="pl-12 pr-4 py-3 rounded-md bg-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
+              />
+            </div>
+
+            <!-- Select Input 1 -->
+            <select
+              id="selectSubject"
+              class="py-3 px-4 w-[25%] rounded-md cursor-pointer bg-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <!-- <option>Option 1</option>
+              <option>Option 2</option> -->
+            </select>
+
+            <!-- Select Input 2 -->
+            <select
+              id="selectBookShelf"
+              class="py-3 px-4 rounded-md w-[25%] cursor-pointer bg-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <!-- <option>Option 1</option>
+              <option>Option 2</option> -->
+            </select>
+          </div>
+
+          <!-- Right Side: Wishlist Icon -->
+          <div class="relative cursor-pointer">
+            <svg
+              class="w-10 h-10 text-gray-700"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.232l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              ></path>
+            </svg>
+            <!-- Badge Count -->
+            <span
+              id="totalwishlist"
+              class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
+            ></span>
+          </div>
+        </nav>
+      </header>
+      <div id="content">
+        <div id="" class="">
+          <div id="bookCard" class="grid grid-cols-3"></div>
+        </div>
+        <div id="pagination" class="flex justify-center mt-6"></div>
       </div>
-      <div id="pagination" class="flex justify-center mt-6"></div>
     </div>
     <script src="./js/index.js"></script>
   </body>
