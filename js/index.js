@@ -5,7 +5,6 @@ let allBookshelves = [];
 let selectedSubject = JSON.parse(localStorage.getItem("selectedSubject")) || "";
 let selectedBookshelf =
   JSON.parse(localStorage.getItem("selectedBookshelf")) || "";
-let inputedSearchText = "Dracula";
 
 const booksPerPage = 32;
 const cardContainer = document.getElementById("cardContainer");
@@ -14,7 +13,6 @@ const bookCardContainer = document.getElementById("bookCard");
 const paginationContainer = document.getElementById("pagination");
 
 const searchInput = document.createElement("input");
-searchInput.value = inputedSearchText;
 const resetButton = document.createElement("button");
 // searchInput.value = "Dracula"
 // Dropdowns for subjects and bookshelves
@@ -156,12 +154,6 @@ const renderBooks = (books) => {
   // console.log(selectedSubject)
   // Filter based on selected subject and bookshelf
 
-  const filteredBooksByInputedSearchTexh = fetchedData.results.filter(
-    (book) =>
-      book.title.toLowerCase().includes(inputedSearchText) ||
-      book.authors[0]?.name.toLowerCase().includes(inputedSearchText)
-  );
-
   const filteredBooks = books.filter((book) => {
     const matchesSubject =
       selectedSubject === "" || book.subjects.includes(selectedSubject);
@@ -280,8 +272,6 @@ const movePage = (pageNumber) => {
   selectedSubject = "";
   currentPage = pageNumber;
   localStorage.setItem("pageNumber", JSON.stringify(pageNumber));
-
-
   // Clear the search input when moving to a new page
   searchInput.value = "";
   resetButton.style.display = "none"; // Hide the reset button when search input is cleared
@@ -305,9 +295,7 @@ bookshelfDropdown.addEventListener("change", (e) => {
 
 // Event listener for search input
 searchInput.addEventListener("input", () => {
-  inputedSearchText = searchInput.value;
-  console.log(inputedSearchText);
-  const searchTerm = inputedSearchText.toLowerCase();
+  const searchTerm = searchInput.value.toLowerCase();
 
   // Filter based on title or author
   const filteredBooks = fetchedData.results.filter(
