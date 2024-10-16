@@ -281,6 +281,7 @@ const movePage = (pageNumber) => {
   currentPage = pageNumber;
   localStorage.setItem("pageNumber", JSON.stringify(pageNumber));
 
+
   // Clear the search input when moving to a new page
   searchInput.value = "";
   resetButton.style.display = "none"; // Hide the reset button when search input is cleared
