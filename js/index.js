@@ -26,8 +26,9 @@ const bookshelfDropdown = document.getElementById("selectBookShelf");
 resetButton.style.display = "none";
 subjectDropdown.innerHTML = `<option value="">Select Subject</option>`;
 bookshelfDropdown.innerHTML = `<option value="">Select Bookshelf</option>`;
-const totalwishlist = document.getElementById("totalwishlist")
-totalwishlist.innerText = JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
+const totalwishlist = document.getElementById("totalwishlist");
+totalwishlist.innerText =
+  JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
 
 const urlSet = () => {
   const url = new URL(window.location);
@@ -83,7 +84,6 @@ const extractSubjectsAndBookshelves = (books) => {
       }
     });
   });
-
 
   subjectDropdown.innerHTML = `<option value="">Select Subject</option>`;
   allSubjects.forEach((subject) => {
@@ -145,7 +145,7 @@ const renderBooks = (books) => {
     // console.log(filteredBooks)
     // Create the card HTML
     const cardHTML = `
-    <div class="border border-red-300">
+    <div class="border-2 bg-white shadow-sm border-gray-200 rounded-md">
       <div class="relative">
         <img src="${coverImage}" alt="Book Cover" class="">
         <div class="">
@@ -159,9 +159,7 @@ const renderBooks = (books) => {
         </div>
       </div>
       <div class="">
-        <h2 class=" ">${
-          book.title
-        }</h2>
+        <h2 class=" ">${book.title}</h2>
         <p class="">Author: <span class="">${authorName}</span></p>
         <p class="">Genre: ${genres}</p>
         <button class="">Read More</button>
@@ -332,8 +330,8 @@ const toggleWishlist = (bookId) => {
 
   // Save the updated wishlist to localStorage
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
-  totalwishlist.innerText = JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
-
+  totalwishlist.innerText =
+    JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
 };
 
 fetchBooks();
