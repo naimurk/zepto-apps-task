@@ -104,7 +104,7 @@ const extractSubjectsAndBookshelves = (books) => {
 
 // Render books function
 const renderBooks = (books) => {
-  console.log("hello world");
+  // console.log("hello world");
   // console.log(books)
   // console.log(books)
   // Clear the bookCardContainer
@@ -145,27 +145,26 @@ const renderBooks = (books) => {
     // console.log(filteredBooks)
     // Create the card HTML
     const cardHTML = `
-    <div class="book-card max-w-sm mx-auto bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+    <div class="border border-red-300">
       <div class="relative">
-        <img src="${coverImage}" alt="Book Cover" class="book-cover w-full h-60 object-cover">
-        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
-        <div class="absolute bottom-4 left-4 text-white">
-          <p class="font-semibold text-lg">ID: ${bookID}</p>
+        <img src="${coverImage}" alt="Book Cover" class="">
+        <div class="">
+          <p class="">ID: ${bookID}</p>
         </div>
         <!-- Love Icon for Wishlist -->
-        <div  onclick = "toggleWishlist(${bookID})" class="absolute top-4 right-4">
+        <div  onclick = "toggleWishlist(${bookID})" class="">
           <i id="wishlist-icon-${bookID}" class="fa fa-heart ${
       isInWishlist(bookID) ? "text-blue-500" : "text-white"
-    } cursor-pointer transition-colors duration-300" data-id="${bookID}"></i>
+    } " data-id="${bookID}"></i>
         </div>
       </div>
-      <div class="p-6">
-        <h2 class="book-title font-bold text-2xl text-gray-900 mb-3 hover:text-indigo-600 transition-colors duration-300">${
+      <div class="">
+        <h2 class=" ">${
           book.title
         }</h2>
-        <p class="book-author text-md text-gray-700 mb-2">Author: <span class="font-medium text-gray-900">${authorName}</span></p>
-        <p class="book-genre text-sm text-gray-500 mb-4">Genre: ${genres}</p>
-        <button class="mt-4 w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-md shadow-md transition-all duration-300">Read More</button>
+        <p class="">Author: <span class="">${authorName}</span></p>
+        <p class="">Genre: ${genres}</p>
+        <button class="">Read More</button>
       </div>
     </div>
   `;
