@@ -1,9 +1,11 @@
-let currentPage = 1; // Initially set to 1
+let currentPage = Number(JSON.parse(localStorage.getItem("pageNumber"))) || 1; // Initially set to 1
 let fetchedData = null;
 let allSubjects = [];
 let allBookshelves = [];
-let selectedSubject = "";
-let selectedBookshelf = "";
+let selectedSubject = JSON.parse(localStorage.getItem("selectedSubject")) || "";
+let selectedBookshelf =
+  JSON.parse(localStorage.getItem("selectedBookshelf")) || "";
+let inputedSearchText = "Dracula";
 
 const booksPerPage = 32;
 const cardContainer = document.getElementById("cardContainer");
@@ -12,10 +14,12 @@ const bookCardContainer = document.getElementById("bookCard");
 const paginationContainer = document.getElementById("pagination");
 
 const searchInput = document.createElement("input");
+searchInput.value = inputedSearchText;
 const resetButton = document.createElement("button");
-
+// searchInput.value = "Dracula"
 // Dropdowns for subjects and bookshelves
 const subjectDropdown = document.createElement("select");
+// subjectDropdown.value = "Horror tales"
 const bookshelfDropdown = document.createElement("select");
 
 // Search input styling and placement
@@ -74,7 +78,7 @@ cardContainer.insertBefore(bookshelfDropdown, bookCardContainer);
 
 // Fetch books function
 const fetchBooks = () => {
-  // console.log(`Fetching data for page: ${currentPage}`); // Add console log to see the current page
+  console.log(`Fetching data for page: ${currentPage}`); // Add console log to see the current page
   fetch(`https://gutendex.com/books?page=${currentPage}`)
     .then((res) => {
       if (!res.ok) {
@@ -129,11 +133,18 @@ const extractSubjectsAndBookshelves = (books) => {
     subjectDropdown.innerHTML += `<option value="${subject}">${subject}</option>`;
   });
 
+  // selectedSubject = "Horror tales"; // Your default subject
+  subjectDropdown.value = selectedSubject;
+  subjectDropdown.dispatchEvent(new Event("change"));
+
   // Populate bookshelf dropdown
   bookshelfDropdown.innerHTML = `<option value="">Select Bookshelf</option>`;
   allBookshelves.forEach((bookshelf) => {
     bookshelfDropdown.innerHTML += `<option value="${bookshelf}">${bookshelf}</option>`;
   });
+
+  bookshelfDropdown.value = selectedBookshelf;
+  bookshelfDropdown.dispatchEvent(new Event("change"));
 };
 
 // Render books function
@@ -144,6 +155,13 @@ const renderBooks = (books) => {
   bookCardContainer.innerHTML = ``;
   // console.log(selectedSubject)
   // Filter based on selected subject and bookshelf
+
+  const filteredBooksByInputedSearchTexh = fetchedData.results.filter(
+    (book) =>
+      book.title.toLowerCase().includes(inputedSearchText) ||
+      book.authors[0]?.name.toLowerCase().includes(inputedSearchText)
+  );
+
   const filteredBooks = books.filter((book) => {
     const matchesSubject =
       selectedSubject === "" || book.subjects.includes(selectedSubject);
@@ -261,6 +279,7 @@ const movePage = (pageNumber) => {
   selectedBookshelf = "";
   selectedSubject = "";
   currentPage = pageNumber;
+  localStorage.setItem("pageNumber", JSON.stringify(pageNumber));
 
   // Clear the search input when moving to a new page
   searchInput.value = "";
@@ -272,18 +291,22 @@ const movePage = (pageNumber) => {
 // Filter by subject
 subjectDropdown.addEventListener("change", (e) => {
   selectedSubject = e.target.value;
+  localStorage.setItem("selectedSubject", JSON.stringify(selectedSubject));
   renderBooks(fetchedData.results); // Re-render books with the selected filter
 });
 
 // Filter by bookshelf
 bookshelfDropdown.addEventListener("change", (e) => {
   selectedBookshelf = e.target.value;
+  localStorage.setItem("selectedBookshelf", JSON.stringify(selectedBookshelf));
   renderBooks(fetchedData.results); // Re-render books with the selected filter
 });
 
 // Event listener for search input
 searchInput.addEventListener("input", () => {
-  const searchTerm = searchInput.value.toLowerCase();
+  inputedSearchText = searchInput.value;
+  console.log(inputedSearchText);
+  const searchTerm = inputedSearchText.toLowerCase();
 
   // Filter based on title or author
   const filteredBooks = fetchedData.results.filter(
@@ -291,7 +314,7 @@ searchInput.addEventListener("input", () => {
       book.title.toLowerCase().includes(searchTerm) ||
       book.authors[0]?.name.toLowerCase().includes(searchTerm)
   );
-  console.log(filteredBooks);
+  // console.log(filteredBooks);
 
   renderBooks(filteredBooks);
 
