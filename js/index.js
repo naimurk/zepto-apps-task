@@ -5,7 +5,11 @@ let allBookshelves = [];
 let selectedSubject = JSON.parse(localStorage.getItem("selectedSubject")) || "";
 let selectedBookshelf =
   JSON.parse(localStorage.getItem("selectedBookshelf")) || "";
-let searchText = JSON.parse(localStorage.getItem("searchTerm")) || "";
+let searchText =
+  localStorage.getItem("searchTerm") === null
+    ? ""
+    : JSON.parse(localStorage.getItem("searchTerm"));
+console.log(searchText);
 const booksPerPage = 32;
 const cardContainer = document.getElementById("cardContainer");
 const loadingContainer = document.getElementById("loading");
@@ -75,9 +79,14 @@ bookshelfDropdown.classList.add(
 bookshelfDropdown.innerHTML = `<option value="">Select Bookshelf</option>`;
 cardContainer.insertBefore(bookshelfDropdown, bookCardContainer);
 
+const urlSet = () => {
+  const url = new URL(window.location);
+  url.searchParams.set("page", JSON.parse(localStorage.getItem("pageNumber")) || 1);
+  window.history.pushState({}, "", url);
+};
 // Fetch books function
 const fetchBooks = () => {
-  console.log(`Fetching data for page: ${currentPage}`); // Add console log to see the current page
+  // console.log(`Fetching data for page: ${currentPage}`); /// Add console log to see the current page
   fetch(`https://gutendex.com/books?page=${currentPage}`)
     .then((res) => {
       if (!res.ok) {
@@ -288,15 +297,15 @@ const movePage = (pageNumber) => {
   selectedBookshelf = "";
   selectedSubject = "";
   searchText = "";
-  localStorage.setItem("selectedBookshelf", "");
-  localStorage.setItem("selectedSubject", "");
-  localStorage.setItem("searchTerm", "");
+  localStorage.setItem("selectedBookshelf", JSON.stringify(""));
+  localStorage.setItem("selectedSubject", JSON.stringify(""));
+  localStorage.setItem("searchTerm", JSON.stringify(""));
   currentPage = pageNumber;
   localStorage.setItem("pageNumber", JSON.stringify(pageNumber));
   // Clear the search input when moving to a new page
   searchInput.value = "";
-  resetButton.style.display = "none"; // Hide the reset button when search input is cleared
-
+  resetButton.style.display = "none";
+   urlSet()
   fetchBooks(); // Fetch new books for the selected page
 };
 
@@ -335,6 +344,8 @@ searchInput.addEventListener("input", () => {
 // Reset button event listener
 resetButton.addEventListener("click", () => {
   searchInput.value = "";
+  searchText = "";
+  localStorage.setItem("searchTerm", JSON.stringify(""));
   resetButton.style.display = "none";
   renderBooks(fetchedData.results); // Re-render books without any search filters
 });
@@ -379,4 +390,6 @@ const toggleWishlist = (bookId) => {
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
 };
 
-fetchBooks(); // Initial call to fetch books
+fetchBooks();
+urlSet()
+// Initial call to fetch books
