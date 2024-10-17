@@ -21,12 +21,14 @@ const searchInput = document.querySelectorAll(".searchText");
 searchInput.forEach((el) => {
   el.value = searchText;
 });
-const resetButton = document.getElementById("reset");
+const resetButton = document.querySelectorAll(".reset");
 
 const subjectDropdown = document.getElementById("selectSubject");
 
 const bookshelfDropdown = document.getElementById("selectBookShelf");
-resetButton.style.display = "none";
+resetButton.forEach((el) => {
+  el.style.display = "none";
+});
 subjectDropdown.innerHTML = `<option value="">Select Subject</option>`;
 bookshelfDropdown.innerHTML = `<option value="">Select Bookshelf</option>`;
 const totalwishlist = document.getElementById("totalwishlist");
@@ -367,7 +369,9 @@ const movePage = (pageNumber) => {
   searchInput.forEach((el) => {
     el.value = "";
   });
-  resetButton.style.display = "none";
+  resetButton.forEach((el) => {
+    el.style.display = "none";
+  });
   urlSet();
   fetchBooks(); // Fetch new books for the selected page
 };
@@ -392,20 +396,26 @@ searchInput.forEach((el) => {
   el.addEventListener("input", () => {
     searchText = el.value;
     localStorage.setItem("searchTerm", JSON.stringify(searchText));
-    resetButton.style.display = searchText ? "block" : "none";
+    resetButton.forEach((el) => {
+      el.style.display = searchText ? "block" : "none";
+    });
+
     renderBooks(fetchedData.results); // Re-render books with the selected search filter
   });
 });
 
 // Reset button event listener
-resetButton.addEventListener("click", () => {
-  searchInput.forEach((el) => {
-    el.value = "";
+resetButton.forEach((el) => {
+  el.addEventListener("click", () => {
+    searchInput.forEach((el) => {
+      el.value = "";
+    });
+    searchText = "";
+    localStorage.setItem("searchTerm", JSON.stringify(""));
+    
+    el.style.display = "none";
+    renderBooks(fetchedData.results); // Re-render books without any search filters
   });
-  searchText = "";
-  localStorage.setItem("searchTerm", JSON.stringify(""));
-  resetButton.style.display = "none";
-  renderBooks(fetchedData.results); // Re-render books without any search filters
 });
 
 // Check if the book is in wishlist (localStorage)
