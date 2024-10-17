@@ -61,10 +61,14 @@
     </style>
   </head>
 
-  <body class="bg-gray-50 relative ">
+  <body class="bg-gray-50 relative">
     <div id="loading" class="min-h-screen flex justify-center items-center">
       <div class="loader"></div>
     </div>
+
+   
+
+
     <div id="cardContainer" class="hidden">
       <header id="header" class="bg-white shadow-md">
         <nav
@@ -76,7 +80,7 @@
           </div>
 
           <!-- Middle: Search Bar & Select Inputs -->
-          <div class=" hidden lg:flex gap-x-4 items-center lg:w-[65%]">
+          <div class="hidden lg:flex gap-x-4 items-center lg:w-[65%]">
             <!-- Search Bar -->
             <div class="relative flex items-center w-[50%]">
               <!-- Cross Icon -->
@@ -145,9 +149,60 @@
           </a>
         </nav>
       </header>
-      <div class="max-w-7xl mx-auto py-4 px-4 lg:px-6 min-w-[320px] pt-[100px]">
+      <div
+        class="max-w-7xl mx-auto py-4 px-4 lg:px-6 min-w-[320px] pt-[50px] lg:pt-[100px]"
+      >
+        <!-- Middle: Search Bar & Select Inputs -->
+        <div
+          class="flex lg:hidden flex-col gap-y-4 items-center mb-[50px] w-full"
+        >
+          <!-- Search Bar -->
+          <div class="relative flex items-center w-full">
+            <!-- Cross Icon -->
+            <span
+              id="reset"
+              class="absolute right-3 text-gray-400 cursor-pointer"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </span>
+
+            <!-- Search Icon -->
+            <span class="absolute left-3 text-gray-400">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <!-- Input Field -->
+            <input
+              id="searchText"
+              type="text"
+              placeholder="Search by tile..."
+              class="pl-12 pr-4 py-3 rounded-md bg-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
+            />
+          </div>
+
+          <!-- Select Input 1 -->
+          <select
+            id="selectSubject"
+            class="py-3 px-4 w-full rounded-md cursor-pointer bg-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <!-- <option>Option 1</option>
+                    <option>Option 2</option> -->
+          </select>
+
+          <!-- Select Input 2 -->
+          <select
+            id="selectBookShelf"
+            class="py-3 px-4 rounded-md w-full cursor-pointer bg-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <!-- <option>Option 1</option>
+                    <option>Option 2</option> -->
+          </select>
+        </div>
+
         <!-- card container -->
-        <div id="bookCard" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7"></div>
+        <div
+          id="bookCard"
+          class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7"
+        ></div>
         <!-- pagination -->
         <div id="pagination" class="flex flex-wrap justify-center mt-6"></div>
       </div>
