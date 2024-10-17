@@ -170,68 +170,63 @@ const renderBooks = (books) => {
 
     // Create the card HTML
     const cardHTML = `
-    <div data-aos="fade-up" data-aos-duration="3000" class="border-2 relative bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border-gray-200 rounded-lg p-5 min-h-[450px] max-h-[650px] flex flex-col justify-between">
+    <div data-aos="fade-up" data-aos-duration="3000" class="border-2 relative bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border-gray-200 rounded-lg p-3 sm:p-5 min-h-[400px] max-h-[600px] flex flex-col justify-between">
       
       <!-- Wishlist Icon -->
-      <div onclick="toggleWishlist(${bookID})" class="absolute cursor-pointer bg-indigo-100 w-10 h-10 p-2 rounded-full flex justify-center items-center  bottom-2 right-2">
-        <i id="wishlist-icon-${bookID}" class="fa fa-heart  ${
-      isInWishlist(bookID) ? "text-indigo-500" : "text-gray-400"
-    } text-[20px] cursor-pointer duration-300"></i>
+      <div onclick="toggleWishlist(${bookID})" class="absolute cursor-pointer bg-indigo-100 w-8 h-8 sm:w-10 sm:h-10 p-1 sm:p-2 rounded-full flex justify-center items-center bottom-2 right-2">
+        <i id="wishlist-icon-${bookID}" class="fa fa-heart ${isInWishlist(bookID) ? "text-indigo-500" : "text-gray-400"} text-[18px] sm:text-[20px] cursor-pointer duration-300"></i>
       </div>
-  
+    
       <!-- Book Cover -->
-      <div class="flex justify-center ">
-        <img src="${coverImage}" alt="Book Cover" class="w-full max-h-[300px] min-h-[300px] rounded-md object-cover">
+      <div class="flex justify-center">
+        <img src="${coverImage}" alt="Book Cover" class="w-full max-h-[250px] sm:max-h-[300px] min-h-[250px] sm:min-h-[300px] rounded-md object-cover">
       </div>
-  
+    
       <!-- Book Information -->
-      <div class="pt-4 flex-grow">
-        <div class="text-[14px] flex flex-col gap-y-3">
+      <div class="pt-3 sm:pt-4 flex-grow">
+        <div class="text-[12px] sm:text-[14px] flex flex-col gap-y-2 sm:gap-y-3">
           
           <!-- ID Section -->
           <div class="flex justify-between items-center">
-            <p class="font-semibold text-[#1C2238] w-[80px]">ID</p>
-            <div class="flex items-center gap-x-2 text-[#7D8091]">
+            <p class="font-semibold text-[#1C2238] w-[70px] sm:w-[80px]">ID</p>
+            <div class="flex items-center gap-x-1 sm:gap-x-2 text-[#7D8091]">
               <span>:</span>
               <span class="font-medium">${bookID}</span>
             </div>
           </div>
-  
+    
           <!-- Author Section -->
           <div class="flex justify-between items-center">
-            <p class="font-semibold text-[#1C2238] w-[80px]">Author</p>
-            <div class="flex items-center gap-x-2 text-[#7D8091]">
+            <p class="font-semibold text-[#1C2238] w-[70px] sm:w-[80px]">Author</p>
+            <div class="flex items-center gap-x-1 sm:gap-x-2 text-[#7D8091]">
               <span>:</span>
               <span class="font-medium">${authorName}</span>
             </div>
           </div>
-  
+    
           <!-- Title Section with Truncated Text -->
-          <div class="mt-3">
-            <p class="font-semibold text-[#1C2238] text-[21px] leading-tight">
-              ${truncateText(title, 27)}
+          <div class="mt-2 sm:mt-3">
+            <p class="font-semibold text-[#1C2238] text-[18px] sm:text-[21px] leading-tight">
+              ${truncateText(title, 22)}
             </p>
           </div>
-  
+    
           <!-- Genres Section -->
-          <div class="mt-4">
+          <div class="mt-3 sm:mt-4">
             <p class="font-semibold text-[#1C2238]">Genres:</p>
-            <div class="flex flex-wrap gap-2 mt-2">
+            <div class="flex flex-wrap gap-1 sm:gap-2 mt-1 sm:mt-2">
               ${displayedGenres
                 .map(
                   (genre) => `
-                <button class="text-xs px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full shadow-sm hover:bg-indigo-500 hover:text-white transition-colors duration-300">${truncateText(
-                  genre,
-                  19
-                )}</button>
-              `
+                  <button class="text-xs px-2 sm:px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full shadow-sm hover:bg-indigo-500 hover:text-white transition-colors duration-300">${truncateText(genre, 15)}</button>
+                `
                 )
                 .join("")}
             </div>
             ${
               showMore
                 ? `
-              <button class="mt-2 text-sm text-indigo-600 hover:underline" onclick="showAllGenres(${bookID})">Show More</button>
+              <button class="mt-2 text-xs sm:text-sm text-indigo-600 hover:underline" onclick="showAllGenres(${bookID})">Show More</button>
             `
                 : ""
             }
@@ -241,6 +236,7 @@ const renderBooks = (books) => {
       </div>
     </div>
     `;
+    
 
     // Append the card to the bookCardContainer
     bookCardContainer.innerHTML += cardHTML;
