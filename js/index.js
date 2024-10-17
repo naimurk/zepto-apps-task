@@ -247,38 +247,45 @@ const renderBooks = (books) => {
   });
 };
 
-function showAllGenres(bookID) {
-  console.log("hello");
-  // Logic to show all genres for the specific book
-  const book = fetchedData?.results?.find((b) => b.id === bookID);
-  const allGenres = book.subjects || [];
-  // Create a modal or display section for all genres
-  alert(`All Genres: ${allGenres.join(", ")}`); // Replace with your preferred way to display genres
-}
-
-// Function to show all genres in modal
 // function showAllGenres(bookID) {
-//   const book = arr.find((b) => b.id === bookID);
-//   const genres = book?.subjects || [];
-
-//   const genreList = document.getElementById("genreList");
-//   genreList.innerHTML = genres
-//     .map(
-//       (genre) => `
-//         <button class="text-xs px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full shadow-sm hover:bg-indigo-500 hover:text-white transition-colors duration-300">${truncateText(
-//           genre,
-//           19
-//         )}</button>`
-//     )
-//     .join("");
-
-//   // Show the modal
-//   document.getElementById("genreModal").classList.remove("hidden");
+//   console.log("hello");
+//   // Logic to show all genres for the specific book
+//   const book = fetchedData?.results?.find((b) => b.id === bookID);
+//   const allGenres = book.subjects || [];
+//   // Create a modal or display section for all genres
+//   alert(`All Genres: ${allGenres.join(", ")}`); // Replace with your preferred way to display genres
 // }
 
+// Open modal function
+function openModal() {
+  document.getElementById("modal").classList.remove("hidden");
+}
+
+// Close modal function
+function closeModal() {
+  document.getElementById("modal").classList.add("hidden");
+}
+
+// Load all genres into modal (optional, depending on how you want to show genres)
+function showAllGenres(bookID) {
+  const book = arr.find((book) => book.id === bookID); // Assuming 'arr' is your book array
+  const allGenres = book.subjects || [];
+
+  const modalContent = document.getElementById("modalContent");
+  modalContent.innerHTML = allGenres
+    .map(
+      (genre) => `
+    <span class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full shadow-sm hover:bg-indigo-500 hover:text-white transition-colors duration-300">
+      ${genre}
+    </span>
+  `
+    )
+    .join("");
+
+  openModal(); // Open modal after populating it
+}
+
 // Close Modal
-
-
 
 // Create pagination based on total items
 const createPagination = (totalBooks) => {
