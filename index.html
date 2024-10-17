@@ -150,6 +150,20 @@
         <div id="pagination" class="flex justify-center mt-6"></div>
       </div>
     </div>
+
+    <div
+      id="errorMessage"
+      class="min-h-screen hidden flex flex-col justify-center items-center gap-y-5 bg-gray-100 px-4"
+    >
+      <h1 id="errorM" class="text-2xl font-semibold text-gray-800"></h1>
+      <button
+        onclick="refetch()"
+        class="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition-colors duration-300"
+      >
+        Refetch
+      </button>
+    </div>
+
     <script src="./js/index.js"></script>
   </body>
 </html>

@@ -15,6 +15,7 @@ const cardContainer = document.getElementById("cardContainer");
 const loadingContainer = document.getElementById("loading");
 const bookCardContainer = document.getElementById("bookCard");
 const paginationContainer = document.getElementById("pagination");
+const errorContainer = document.getElementById("errorMessage");
 
 const searchInput = document.getElementById("searchText");
 searchInput.value = searchText;
@@ -49,11 +50,9 @@ const fetchBooks = () => {
     })
     .then((data) => {
       fetchedData = data;
-      // console.log(data);
-
+      errorContainer.classList.add("hidden");
       cardContainer.classList.remove("hidden");
       loadingContainer.classList.add("hidden");
-      // console.log({data : data , currentPage : currentPage})
 
       // Extract unique subjects and bookshelves
       extractSubjectsAndBookshelves(data.results);
@@ -63,7 +62,23 @@ const fetchBooks = () => {
       // After rendering the books, create the pagination
       createPagination(data.count);
     })
-    .catch((error) => console.error("Error fetching books:", error));
+    .catch((error) => {
+      ErrorHandling(error.message);
+    });
+};
+
+const ErrorHandling = (msg) => {
+  cardContainer.classList.add("hidden");
+  loadingContainer.classList.add("hidden");
+  errorContainer.classList.remove("hidden");
+  document.getElementById(
+    "errorM"
+  ).innerText = `Something went wrong from the server ${msg}`;
+};
+
+const refetch = () => {
+  errorContainer.classList.remove("hidden");
+  window.location.reload();
 };
 
 // Function to extract subjects and bookshelves
@@ -365,7 +380,7 @@ const isInWishlist = (bookID) => {
 };
 
 // Toggle wishlist status (add/remove full book object in localStorage)
- const toggleWishlist = (bookId) => {
+const toggleWishlist = (bookId) => {
   // console.log(book)
   const findTheData = fetchedData?.results?.find((book) => book.id === bookId);
   // console.log(findTheData)
@@ -399,8 +414,6 @@ const isInWishlist = (bookID) => {
   totalwishlist.innerText =
     JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
 };
-
-
 
 fetchBooks();
 urlSet();
