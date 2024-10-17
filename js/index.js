@@ -295,15 +295,15 @@ const createPagination = (totalBooks) => {
   paginationContainer.innerHTML = ""; // Clear previous pagination
 
   if (page > 1) {
-    liTag += `<button class="pagination-button bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300 mr-2" onclick="movePage(${
+    liTag += `<button class="pagination-button bg-gray-200 px-2 py-1 sm:px-3 sm:py-1 rounded-md hover:bg-gray-300 mr-1 sm:mr-2 text-sm sm:text-base" onclick="movePage(${
       page - 1
     })">Prev</button>`;
   }
 
   if (page > 2) {
-    liTag += `<button class="pagination-button bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300 mx-1" onclick="movePage(1)">1</button>`;
+    liTag += `<button class="pagination-button bg-gray-200 px-2 py-1 sm:px-3 sm:py-1 rounded-md hover:bg-gray-300 mx-1 sm:mx-2 text-sm sm:text-base" onclick="movePage(1)">1</button>`;
     if (page > 3) {
-      liTag += `<span class="dots mx-1">...</span>`;
+      liTag += `<span class="dots mx-1 sm:mx-2 text-sm sm:text-base">...</span>`;
     }
   }
 
@@ -326,24 +326,26 @@ const createPagination = (totalBooks) => {
 
     const active =
       page === plength ? "bg-indigo-500 text-white" : "bg-gray-200";
-    liTag += `<button class="pagination-number mx-1 ${active} px-3 py-1 rounded-md hover:bg-gray-300" onclick="movePage(${plength})">${plength}</button>`;
+    liTag += `<button class="pagination-number mx-1 sm:mx-2 ${active} px-2 py-1 sm:px-3 sm:py-1 rounded-md hover:bg-gray-300 text-sm sm:text-base" onclick="movePage(${plength})">${plength}</button>`;
   }
 
   if (page < totalPages - 1) {
     if (page < totalPages - 2) {
-      liTag += `<span class="dots mx-1">...</span>`;
+      liTag += `<span class="dots mx-1 sm:mx-2 text-sm sm:text-base">...</span>`;
     }
-    liTag += `<button class="pagination-number bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300 mx-1" onclick="movePage(${totalPages})">${totalPages}</button>`;
+    liTag += `<button class="pagination-number bg-gray-200 px-2 py-1 sm:px-3 sm:py-1 rounded-md hover:bg-gray-300 mx-1 sm:mx-2 text-sm sm:text-base" onclick="movePage(${totalPages})">${totalPages}</button>`;
   }
 
   if (page < totalPages) {
-    liTag += `<button class="pagination-button bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300 ml-2" onclick="movePage(${
+    liTag += `<button class="pagination-button bg-gray-200 px-2 py-1 sm:px-3 sm:py-1 rounded-md hover:bg-gray-300 ml-1 sm:ml-2 text-sm sm:text-base" onclick="movePage(${
       page + 1
     })">Next</button>`;
   }
 
   paginationContainer.innerHTML = liTag; // Add li tag inside the pagination container
 };
+
+
 
 // Move page function
 const movePage = (pageNumber) => {

@@ -61,14 +61,14 @@
     </style>
   </head>
 
-  <body class="bg-gray-50 relative">
+  <body class="bg-gray-50 relative ">
     <div id="loading" class="min-h-screen flex justify-center items-center">
       <div class="loader"></div>
     </div>
     <div id="cardContainer" class="hidden">
       <header id="header" class="bg-white shadow-md">
         <nav
-          class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 min-w-[320px]"
+          class="max-w-7xl mx-auto flex justify-between gap-x-3 md:gap-x-0 items-center py-4 px-4 lg:px-6 min-w-[320px] w-full"
         >
           <!-- Left Side: Logo -->
           <div class="flex items-center space-x-4">
@@ -76,7 +76,7 @@
           </div>
 
           <!-- Middle: Search Bar & Select Inputs -->
-          <div class="flex gap-x-4 items-center lg:w-[65%]">
+          <div class=" hidden lg:flex gap-x-4 items-center lg:w-[65%]">
             <!-- Search Bar -->
             <div class="relative flex items-center w-[50%]">
               <!-- Cross Icon -->
@@ -149,7 +149,7 @@
         <!-- card container -->
         <div id="bookCard" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7"></div>
         <!-- pagination -->
-        <div id="pagination" class="flex justify-center mt-6"></div>
+        <div id="pagination" class="flex flex-wrap justify-center mt-6"></div>
       </div>
     </div>
 
@@ -170,7 +170,7 @@
     <!-- Modal Structure -->
     <div
       id="modal"
-      class="fixed inset-0 hidden bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
+      class="fixed inset-0 hidden bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 w-full"
     >
       <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
         <!-- Close Button -->
