@@ -360,12 +360,12 @@ resetButton.addEventListener("click", () => {
 
 // Check if the book is in wishlist (localStorage)
 const isInWishlist = (bookID) => {
-  // const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-  // return wishlist.some((book) => book.bookID === bookID);
+  const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  return wishlist.some((book) => book.id === bookID);
 };
 
 // Toggle wishlist status (add/remove full book object in localStorage)
-const toggleWishlist = (bookId) => {
+ const toggleWishlist = (bookId) => {
   // console.log(book)
   const findTheData = fetchedData?.results?.find((book) => book.id === bookId);
   // console.log(findTheData)
@@ -400,6 +400,9 @@ const toggleWishlist = (bookId) => {
     JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
 };
 
+
+
 fetchBooks();
 urlSet();
+
 // Initial call to fetch books
