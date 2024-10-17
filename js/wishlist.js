@@ -1,7 +1,7 @@
 const wishListAddInWishlistPage = () => {
   const existingWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
   const wishlistContainer = document.getElementById("wishlistContainer");
-  wishlistContainer.innerHTML = ``
+  wishlistContainer.innerHTML = ``;
   existingWishlist?.forEach((book) => {
     const authorName = book?.authors[0]?.name || "Unknown Author";
     const coverImage = book?.formats["image/jpeg"] || "";
@@ -54,6 +54,13 @@ const removeFromLocalStorage = (bookID) => {
   wishlist = wishlist.filter((item) => item.id !== bookID);
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
   wishListAddInWishlistPage();
+  totalwishlist()
 };
 
+const totalwishlist = () => {
+  const totalItems = JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
+  document.getElementById("totalwishlist").innerText = `Total Items : ${totalItems}`;
+};
+
+totalwishlist();
 wishListAddInWishlistPage();
