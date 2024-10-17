@@ -17,8 +17,10 @@ const bookCardContainer = document.getElementById("bookCard");
 const paginationContainer = document.getElementById("pagination");
 const errorContainer = document.getElementById("errorMessage");
 
-const searchInput = document.getElementById("searchText");
-searchInput.value = searchText;
+const searchInput = document.querySelectorAll(".searchText");
+searchInput.forEach((el) => {
+  el.value = searchText;
+});
 const resetButton = document.getElementById("reset");
 
 const subjectDropdown = document.getElementById("selectSubject");
@@ -174,7 +176,9 @@ const renderBooks = (books) => {
       
       <!-- Wishlist Icon -->
       <div onclick="toggleWishlist(${bookID})" class="absolute cursor-pointer bg-indigo-100 w-8 h-8 sm:w-10 sm:h-10 p-1 sm:p-2 rounded-full flex justify-center items-center bottom-2 right-2">
-        <i id="wishlist-icon-${bookID}" class="fa fa-heart ${isInWishlist(bookID) ? "text-indigo-500" : "text-gray-400"} text-[18px] sm:text-[20px] cursor-pointer duration-300"></i>
+        <i id="wishlist-icon-${bookID}" class="fa fa-heart ${
+      isInWishlist(bookID) ? "text-indigo-500" : "text-gray-400"
+    } text-[18px] sm:text-[20px] cursor-pointer duration-300"></i>
       </div>
     
       <!-- Book Cover -->
@@ -218,7 +222,10 @@ const renderBooks = (books) => {
               ${displayedGenres
                 .map(
                   (genre) => `
-                  <button class="text-xs px-2 sm:px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full shadow-sm hover:bg-indigo-500 hover:text-white transition-colors duration-300">${truncateText(genre, 15)}</button>
+                  <button class="text-xs px-2 sm:px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full shadow-sm hover:bg-indigo-500 hover:text-white transition-colors duration-300">${truncateText(
+                    genre,
+                    15
+                  )}</button>
                 `
                 )
                 .join("")}
@@ -236,7 +243,6 @@ const renderBooks = (books) => {
       </div>
     </div>
     `;
-    
 
     // Append the card to the bookCardContainer
     bookCardContainer.innerHTML += cardHTML;
@@ -345,8 +351,6 @@ const createPagination = (totalBooks) => {
   paginationContainer.innerHTML = liTag; // Add li tag inside the pagination container
 };
 
-
-
 // Move page function
 const movePage = (pageNumber) => {
   cardContainer.classList.add("hidden");
@@ -359,7 +363,10 @@ const movePage = (pageNumber) => {
   localStorage.setItem("searchTerm", JSON.stringify(""));
   currentPage = pageNumber;
   localStorage.setItem("pageNumber", JSON.stringify(pageNumber));
-  searchInput.value = "";
+  // searchInput.value = "";
+  searchInput.forEach((el) => {
+    el.value = "";
+  });
   resetButton.style.display = "none";
   urlSet();
   fetchBooks(); // Fetch new books for the selected page
@@ -380,25 +387,21 @@ bookshelfDropdown.addEventListener("change", (e) => {
 });
 
 // Event listener for search input
-searchInput.addEventListener("input", () => {
-  const searchTerm = searchInput.value.toLowerCase();
-  // Filter based on title or author
-  localStorage.setItem("searchTerm", JSON.stringify(searchInput.value));
-  const filteredBooks = fetchedData.results.filter(
-    (book) =>
-      book.title.toLowerCase().includes(searchTerm) ||
-      book.authors[0]?.name.toLowerCase().includes(searchTerm)
-  );
 
-  renderBooks(filteredBooks);
-
-  // Show or hide reset button based on search input
-  resetButton.style.display = searchTerm.length > 0 ? "inline-block" : "none";
+searchInput.forEach((el) => {
+  el.addEventListener("input", () => {
+    searchText = el.value;
+    localStorage.setItem("searchTerm", JSON.stringify(searchText));
+    resetButton.style.display = searchText ? "block" : "none";
+    renderBooks(fetchedData.results); // Re-render books with the selected search filter
+  });
 });
 
 // Reset button event listener
 resetButton.addEventListener("click", () => {
-  searchInput.value = "";
+  searchInput.forEach((el) => {
+    el.value = "";
+  });
   searchText = "";
   localStorage.setItem("searchTerm", JSON.stringify(""));
   resetButton.style.display = "none";
