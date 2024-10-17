@@ -9,7 +9,7 @@ let searchText =
   localStorage.getItem("searchTerm") === null
     ? ""
     : JSON.parse(localStorage.getItem("searchTerm"));
-console.log(searchText);
+// console.log(searchText);
 const booksPerPage = 32;
 const cardContainer = document.getElementById("cardContainer");
 const loadingContainer = document.getElementById("loading");
@@ -171,7 +171,7 @@ const renderBooks = (books) => {
       
       <!-- Wishlist Icon -->
       <div onclick="toggleWishlist(${bookID})" class="absolute cursor-pointer bg-indigo-100 w-10 h-10 p-2 rounded-full flex justify-center items-center  bottom-2 right-2">
-        <i id="wishlist-icon-${bookID}" class="fa fa-heart ${
+        <i id="wishlist-icon-${bookID}" class="fa fa-heart  ${
       isInWishlist(bookID) ? "text-indigo-500" : "text-gray-400"
     } text-[20px] cursor-pointer duration-300"></i>
       </div>
@@ -376,7 +376,7 @@ resetButton.addEventListener("click", () => {
 // Check if the book is in wishlist (localStorage)
 const isInWishlist = (bookID) => {
   const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-  return wishlist.some((book) => book.id === bookID);
+  return wishlist.some((book) => book.id == bookID);
 };
 
 // Toggle wishlist status (add/remove full book object in localStorage)
@@ -413,6 +413,11 @@ const toggleWishlist = (bookId) => {
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
   totalwishlist.innerText =
     JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
+  // toggleWishlist(bookId);
+  // renderBooks(fetchedData?.results)
+  window.location.reload()
+  
+  
 };
 
 fetchBooks();
