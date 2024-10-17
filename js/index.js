@@ -102,6 +102,9 @@ const extractSubjectsAndBookshelves = (books) => {
   bookshelfDropdown.dispatchEvent(new Event("change"));
 };
 
+function truncateText(text, maxLength) {
+  return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+}
 // Render books function
 const renderBooks = (books) => {
   // console.log("hello world");
@@ -136,41 +139,104 @@ const renderBooks = (books) => {
   });
   //  console.log(filteredBooks)
   // Loop through each book in the provided data and create the card
-  filteredBooks.forEach((book) => {
-    const authorName = book.authors[0]?.name || "Unknown Author";
-    const coverImage = book.formats["image/jpeg"] || "";
-    const genres = book.subjects.join(", ") || "Unknown Genre";
-    const bookID = book.id;
-    const thebook = { ...book };
-    // console.log(filteredBooks)
+  filteredBooks?.forEach((book) => {
+    const authorName = book?.authors[0]?.name || "Unknown Author";
+    const coverImage = book?.formats["image/jpeg"] || "";
+    const genres = book?.subjects || [];
+    const bookID = book?.id;
+    const title = book?.title;
+
+    // Limit genres to a maximum of 4
+    const displayedGenres = genres.slice(0, 4);
+    const showMore = genres.length > 4;
+
     // Create the card HTML
     const cardHTML = `
-    <div class="border-2 bg-white shadow-sm border-gray-200 rounded-md">
-      <div class="relative">
-        <img src="${coverImage}" alt="Book Cover" class="">
-        <div class="">
-          <p class="">ID: ${bookID}</p>
-        </div>
-        <!-- Love Icon for Wishlist -->
-        <div  onclick = "toggleWishlist(${bookID})" class="">
-          <i id="wishlist-icon-${bookID}" class="fa fa-heart ${
-      isInWishlist(bookID) ? "text-blue-500" : "text-white"
-    } " data-id="${bookID}"></i>
-        </div>
+    <div class="border-2 relative bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border-gray-200 rounded-lg p-5 min-h-[450px] max-h-[650px] flex flex-col justify-between">
+      
+      <!-- Wishlist Icon -->
+      <div onclick="toggleWishlist(${bookID})" class="absolute cursor-pointer bg-indigo-100 w-10 h-10 p-2 rounded-full flex justify-center items-center  bottom-2 right-2">
+        <i id="wishlist-icon-${bookID}" class="fa fa-heart ${
+      isInWishlist(bookID) ? "text-indigo-500" : "text-gray-400"
+    } text-[20px] cursor-pointer duration-300"></i>
       </div>
-      <div class="">
-        <h2 class=" ">${book.title}</h2>
-        <p class="">Author: <span class="">${authorName}</span></p>
-        <p class="">Genre: ${genres}</p>
-        <button class="">Read More</button>
+  
+      <!-- Book Cover -->
+      <div class="flex justify-center ">
+        <img src="${coverImage}" alt="Book Cover" class="w-full max-h-[300px] min-h-[300px] rounded-md object-cover">
+      </div>
+  
+      <!-- Book Information -->
+      <div class="pt-4 flex-grow">
+        <div class="text-[14px] flex flex-col gap-y-3">
+          
+          <!-- ID Section -->
+          <div class="flex justify-between items-center">
+            <p class="font-semibold text-[#1C2238] w-[80px]">ID</p>
+            <div class="flex items-center gap-x-2 text-[#7D8091]">
+              <span>:</span>
+              <span class="font-medium">${bookID}</span>
+            </div>
+          </div>
+  
+          <!-- Author Section -->
+          <div class="flex justify-between items-center">
+            <p class="font-semibold text-[#1C2238] w-[80px]">Author</p>
+            <div class="flex items-center gap-x-2 text-[#7D8091]">
+              <span>:</span>
+              <span class="font-medium">${authorName}</span>
+            </div>
+          </div>
+  
+          <!-- Title Section with Truncated Text -->
+          <div class="mt-3">
+            <p class="font-semibold text-[#1C2238] text-[21px] leading-tight">
+              ${truncateText(title, 27)}
+            </p>
+          </div>
+  
+          <!-- Genres Section -->
+          <div class="mt-4">
+            <p class="font-semibold text-[#1C2238]">Genres:</p>
+            <div class="flex flex-wrap gap-2 mt-2">
+              ${displayedGenres
+                .map(
+                  (genre) => `
+                <button class="text-xs px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full shadow-sm hover:bg-indigo-500 hover:text-white transition-colors duration-300">${truncateText(
+                  genre,
+                  19
+                )}</button>
+              `
+                )
+                .join("")}
+            </div>
+            ${
+              showMore
+                ? `
+              <button class="mt-2 text-sm text-indigo-600 hover:underline" onclick="showAllGenres(${bookID})">Show More</button>
+            `
+                : ""
+            }
+          </div>
+          
+        </div>
       </div>
     </div>
-  `;
+    `;
 
     // Append the card to the bookCardContainer
     bookCardContainer.innerHTML += cardHTML;
   });
 };
+
+function showAllGenres(bookID) {
+  console.log("hello");
+  // Logic to show all genres for the specific book
+  const book = fetchedData?.results?.find((b) => b.id === bookID);
+  const allGenres = book.subjects || [];
+  // Create a modal or display section for all genres
+  alert(`All Genres: ${allGenres.join(", ")}`); // Replace with your preferred way to display genres
+}
 
 // Create pagination based on total items
 const createPagination = (totalBooks) => {

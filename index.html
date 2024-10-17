@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="./style/index.css" />
@@ -22,10 +27,16 @@
               clifford: "#da373d",
             },
           },
+          fontFamily: {
+            poppins: ["Poppins", "sans-serif"],
+          },
         },
       };
     </script>
     <style>
+      body {
+        font-family: "Poppins", sans-serif;
+      }
       .pagination-button,
       .pagination-number {
         padding: 0.5rem 1rem;
@@ -47,6 +58,7 @@
       }
     </style>
   </head>
+
   <body class="bg-gray-50">
     <div id="loading" class="min-h-screen flex justify-center items-center">
       <div class="loader"></div>
@@ -106,27 +118,29 @@
           </div>
 
           <!-- Right Side: Wishlist Icon -->
-          <div class="relative cursor-pointer">
-            <svg
-              class="w-10 h-10 text-gray-700"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.232l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              ></path>
-            </svg>
-            <!-- Badge Count -->
-            <span
-              id="totalwishlist"
-              class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
-            ></span>
-          </div>
+          <a href="wishlist.html">
+            <div class="relative cursor-pointer">
+              <svg
+                class="w-10 h-10 text-gray-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.232l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                ></path>
+              </svg>
+              <!-- Badge Count -->
+              <span
+                id="totalwishlist"
+                class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
+              ></span>
+            </div>
+          </a>
         </nav>
       </header>
       <div class="max-w-7xl mx-auto py-4 px-6 min-w-[320px] pt-[100px]">
