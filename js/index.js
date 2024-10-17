@@ -30,7 +30,7 @@ bookshelfDropdown.innerHTML = `<option value="">Select Bookshelf</option>`;
 const totalwishlist = document.getElementById("totalwishlist");
 totalwishlist.innerText =
   JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
-
+let arr = []
 const urlSet = () => {
   const url = new URL(window.location);
   url.searchParams.set(
@@ -122,6 +122,7 @@ function truncateText(text, maxLength) {
 }
 // Render books function
 const renderBooks = (books) => {
+  // let arr = [];
   // console.log("hello world");
   // console.log(books)
   // console.log(books)
@@ -152,9 +153,10 @@ const renderBooks = (books) => {
       book?.bookshelves?.includes(selectedBookshelf);
     return matchText && matchesSubject && matchesBookshelf;
   });
+  arr = [...filteredBooks];
   //  console.log(filteredBooks)
   // Loop through each book in the provided data and create the card
-  filteredBooks?.forEach((book) => {
+  arr?.forEach((book) => {
     const authorName = book?.authors[0]?.name || "Unknown Author";
     const coverImage = book?.formats["image/jpeg"] || "";
     const genres = book?.subjects || [];
@@ -381,7 +383,8 @@ const isInWishlist = (bookID) => {
 
 // Toggle wishlist status (add/remove full book object in localStorage)
 const toggleWishlist = (bookId) => {
-  // console.log(book)
+  console.log("hello world")
+  // console.log(bookId)
   const findTheData = fetchedData?.results?.find((book) => book.id === bookId);
   // console.log(findTheData)
   // console.log("gekki")
@@ -414,10 +417,9 @@ const toggleWishlist = (bookId) => {
   totalwishlist.innerText =
     JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
   // toggleWishlist(bookId);
-  // renderBooks(fetchedData?.results)
-  window.location.reload()
-  
-  
+  // const array = JSON.parse(arr);
+  renderBooks([...arr]);
+  // window.location.reload()
 };
 
 fetchBooks();
