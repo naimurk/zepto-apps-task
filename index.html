@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
     <!-- Google Font Poppins -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -56,15 +58,16 @@
         background-color: #6366f1;
         color: white;
       }
+
     </style>
   </head>
 
-  <body class="bg-gray-50">
+  <body class="bg-gray-50 relative">
     <div id="loading" class="min-h-screen flex justify-center items-center">
       <div class="loader"></div>
     </div>
     <div id="cardContainer" class="hidden">
-      <header class="bg-white shadow-md">
+      <header id="header" class="bg-white shadow-md">
         <nav
           class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 min-w-[320px]"
         >
@@ -119,7 +122,7 @@
 
           <!-- Right Side: Wishlist Icon -->
           <a href="wishlist.html">
-            <div  class="relative cursor-pointer">
+            <div class="relative cursor-pointer">
               <svg
                 class="w-10 h-10 text-gray-700"
                 fill="none"
@@ -163,7 +166,14 @@
         Refetch
       </button>
     </div>
+    <!-- modal -->
+    <!-- Modal Structure -->
+  
 
     <script src="./js/index.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
   </body>
 </html>

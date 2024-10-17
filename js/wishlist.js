@@ -10,7 +10,7 @@ const wishListAddInWishlistPage = () => {
 
     // Create the card HTML with improved design and layout
     const cardHTML = `
-        <div class="border border-gray-300 bg-white shadow-md hover:shadow-lg rounded-lg p-4 mb-6 w-full">
+        <div data-aos="fade-up" data-aos-duration="3000" class="border border-gray-300 bg-white shadow-md hover:shadow-lg rounded-lg p-4 mb-6 w-full">
           
        <div class = "flex items-center gap-4">
           <!-- Book Cover -->

@@ -30,7 +30,7 @@ bookshelfDropdown.innerHTML = `<option value="">Select Bookshelf</option>`;
 const totalwishlist = document.getElementById("totalwishlist");
 totalwishlist.innerText =
   JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
-let arr = []
+let arr = [];
 const urlSet = () => {
   const url = new URL(window.location);
   url.searchParams.set(
@@ -53,6 +53,7 @@ const fetchBooks = () => {
       errorContainer.classList.add("hidden");
       cardContainer.classList.remove("hidden");
       loadingContainer.classList.add("hidden");
+      // document.getElementById("header").setAttribute("data-aos", "fade-right");
 
       // Extract unique subjects and bookshelves
       extractSubjectsAndBookshelves(data.results);
@@ -169,7 +170,7 @@ const renderBooks = (books) => {
 
     // Create the card HTML
     const cardHTML = `
-    <div class="border-2 relative bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border-gray-200 rounded-lg p-5 min-h-[450px] max-h-[650px] flex flex-col justify-between">
+    <div data-aos="fade-up" data-aos-duration="3000" class="border-2 relative bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border-gray-200 rounded-lg p-5 min-h-[450px] max-h-[650px] flex flex-col justify-between">
       
       <!-- Wishlist Icon -->
       <div onclick="toggleWishlist(${bookID})" class="absolute cursor-pointer bg-indigo-100 w-10 h-10 p-2 rounded-full flex justify-center items-center  bottom-2 right-2">
@@ -254,6 +255,30 @@ function showAllGenres(bookID) {
   // Create a modal or display section for all genres
   alert(`All Genres: ${allGenres.join(", ")}`); // Replace with your preferred way to display genres
 }
+
+// Function to show all genres in modal
+// function showAllGenres(bookID) {
+//   const book = arr.find((b) => b.id === bookID);
+//   const genres = book?.subjects || [];
+
+//   const genreList = document.getElementById("genreList");
+//   genreList.innerHTML = genres
+//     .map(
+//       (genre) => `
+//         <button class="text-xs px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full shadow-sm hover:bg-indigo-500 hover:text-white transition-colors duration-300">${truncateText(
+//           genre,
+//           19
+//         )}</button>`
+//     )
+//     .join("");
+
+//   // Show the modal
+//   document.getElementById("genreModal").classList.remove("hidden");
+// }
+
+// Close Modal
+
+
 
 // Create pagination based on total items
 const createPagination = (totalBooks) => {
@@ -383,7 +408,7 @@ const isInWishlist = (bookID) => {
 
 // Toggle wishlist status (add/remove full book object in localStorage)
 const toggleWishlist = (bookId) => {
-  console.log("hello world")
+  console.log("hello world");
   // console.log(bookId)
   const findTheData = fetchedData?.results?.find((book) => book.id === bookId);
   // console.log(findTheData)
