@@ -42,16 +42,17 @@
     </style>
   </head>
   <body class="bg-gray-50">
-    <div class="max-w-7xl mx-auto px-6 min-w-[320px]">
-      <div class="flex justify-between items-center my-4">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 min-w-[320px]">
+      <!-- Flex container for Back Button and Total Wishlist -->
+      <div class="flex flex-row justify-between items-center my-4">
         <!-- Back Button with Arrow Icon -->
         <a href="index.html">
           <button
-            class="flex items-center bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600"
+            class="flex items-center bg-indigo-500 text-white px-3 sm:px-4 py-2 rounded-md hover:bg-indigo-600 mb-2 sm:mb-0"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 mr-2"
+              class="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -66,19 +67,20 @@
             Back
           </button>
         </a>
-
+    
         <!-- Total Wishlist -->
-        <p id="totalwishlist" class="text-gray-700 text-lg font-semibold">
+        <p id="totalwishlist" class="text-gray-700 text-base sm:text-lg font-semibold">
           Total Wishlist: 0
         </p>
       </div>
-
-      <!-- whishList Container -->
+    
+      <!-- Wishlist Container -->
       <div
         id="wishlistContainer"
-        class="grid grid-cols-2 gap-4 max-w-7xl mx-auto px-6 min-w-[320px]"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mx-auto px-2 sm:px-4 lg:px-6 min-w-[320px]"
       ></div>
     </div>
+    
     <script src="./js/wishlist.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>

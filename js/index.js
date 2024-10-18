@@ -23,14 +23,17 @@ searchInput.forEach((el) => {
 });
 const resetButton = document.querySelectorAll(".reset");
 
-const subjectDropdown = document.getElementById("selectSubject");
-
-const bookshelfDropdown = document.getElementById("selectBookShelf");
+const subjectDropdown = document.querySelectorAll(".selectSubject");
+const bookshelfDropdown = document.querySelectorAll(".selectBookShelf");
 resetButton.forEach((el) => {
   el.style.display = "none";
 });
-subjectDropdown.innerHTML = `<option value="">Select Subject</option>`;
-bookshelfDropdown.innerHTML = `<option value="">Select Bookshelf</option>`;
+subjectDropdown.forEach((el) => {
+  el.innerHTML = `<option value="">Select Subject</option>`;
+});
+bookshelfDropdown.forEach((el) => {
+  el.innerHTML = `<option value="">Select Bookshelf</option>`;
+});
 const totalwishlist = document.getElementById("totalwishlist");
 totalwishlist.innerText =
   JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
@@ -105,21 +108,40 @@ const extractSubjectsAndBookshelves = (books) => {
     });
   });
 
-  subjectDropdown.innerHTML = `<option value="">Select Subject</option>`;
+  subjectDropdown.forEach((el) => {
+    el.innerHTML = `<option value="">Select Subject</option>`;
+  });
   allSubjects.forEach((subject) => {
-    subjectDropdown.innerHTML += `<option value="${subject}">${subject}</option>`;
+    subjectDropdown.forEach((el) => {
+      el.innerHTML += `<option value="${subject}">${subject}</option>`;
+    });
   });
 
-  subjectDropdown.value = selectedSubject;
-  subjectDropdown.dispatchEvent(new Event("change"));
+  subjectDropdown.forEach((el) => {
+    el.value = selectedSubject;
+  });
 
-  bookshelfDropdown.innerHTML = `<option value="">Select Bookshelf</option>`;
+  subjectDropdown.forEach((el) => {
+    el.dispatchEvent(new Event("change"));
+  });
+
+  bookshelfDropdown.forEach((el) => {
+    el.innerHTML = `<option value="">Select Bookshelf</option>`;
+  });
+
   allBookshelves.forEach((bookshelf) => {
-    bookshelfDropdown.innerHTML += `<option value="${bookshelf}">${bookshelf}</option>`;
+    bookshelfDropdown.forEach((el) => {
+      el.innerHTML += `<option value="${bookshelf}">${bookshelf}</option>`;
+    });
   });
 
-  bookshelfDropdown.value = selectedBookshelf;
-  bookshelfDropdown.dispatchEvent(new Event("change"));
+  bookshelfDropdown.forEach((el) => {
+    el.value = selectedBookshelf;
+  });
+
+  bookshelfDropdown.forEach((el) => {
+    el.dispatchEvent(new Event("change"));
+  });
 };
 
 function truncateText(text, maxLength) {
@@ -251,14 +273,6 @@ const renderBooks = (books) => {
   });
 };
 
-// function showAllGenres(bookID) {
-//   console.log("hello");
-//   // Logic to show all genres for the specific book
-//   const book = fetchedData?.results?.find((b) => b.id === bookID);
-//   const allGenres = book.subjects || [];
-//   // Create a modal or display section for all genres
-//   alert(`All Genres: ${allGenres.join(", ")}`); // Replace with your preferred way to display genres
-// }
 
 // Open modal function
 function openModal() {
@@ -376,18 +390,25 @@ const movePage = (pageNumber) => {
   fetchBooks(); // Fetch new books for the selected page
 };
 
-// Filter by subject
-subjectDropdown.addEventListener("change", (e) => {
-  selectedSubject = e.target.value;
-  localStorage.setItem("selectedSubject", JSON.stringify(selectedSubject));
-  renderBooks(fetchedData.results); // Re-render books with the selected filter
+subjectDropdown.forEach((el) => {
+  // Filter by subject
+  el.addEventListener("change", (e) => {
+    selectedSubject = e.target.value;
+    localStorage.setItem("selectedSubject", JSON.stringify(selectedSubject));
+    renderBooks(fetchedData.results); // Re-render books with the selected filter
+  });
 });
 
-// Filter by bookshelf
-bookshelfDropdown.addEventListener("change", (e) => {
-  selectedBookshelf = e.target.value;
-  localStorage.setItem("selectedBookshelf", JSON.stringify(selectedBookshelf));
-  renderBooks(fetchedData.results); // Re-render books with the selected filter
+bookshelfDropdown.forEach((el) => {
+  // Filter by bookshelf
+  el.addEventListener("change", (e) => {
+    selectedBookshelf = e.target.value;
+    localStorage.setItem(
+      "selectedBookshelf",
+      JSON.stringify(selectedBookshelf)
+    );
+    renderBooks(fetchedData.results); // Re-render books with the selected filter
+  });
 });
 
 // Event listener for search input
@@ -412,7 +433,7 @@ resetButton.forEach((el) => {
     });
     searchText = "";
     localStorage.setItem("searchTerm", JSON.stringify(""));
-    
+
     el.style.display = "none";
     renderBooks(fetchedData.results); // Re-render books without any search filters
   });
