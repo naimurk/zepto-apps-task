@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zepto Apps - Book List</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="./assets/Zepto-logo.avif" type="image/avif">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
     <!-- Google Font Poppins -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -69,7 +69,9 @@
    
 
 
+    <!-- navbar nad card section -->
     <div id="cardContainer" class="hidden">
+      <!-- header navbar -->
       <header id="header" class="bg-white shadow-md">
         <nav
           class="max-w-7xl mx-auto flex justify-between gap-x-3 md:gap-x-0 items-center py-4 px-4 lg:px-6 min-w-[320px] w-full"
@@ -149,6 +151,8 @@
           </a>
         </nav>
       </header>
+
+      <!-- this  div contain selected input field and pagination and card  -->
       <div
         class="max-w-7xl mx-auto py-4 px-4 lg:px-6 min-w-[320px] pt-[50px] lg:pt-[100px]"
       >
@@ -208,6 +212,7 @@
       </div>
     </div>
 
+    <!-- error message show -->
     <div
       id="errorMessage"
       class="min-h-screen hidden flex flex-col justify-center items-center gap-y-5 bg-gray-100 px-4"
@@ -222,7 +227,6 @@
     </div>
 
     <!-- modal -->
-    <!-- Modal Structure -->
     <div
       id="modal"
       class="fixed inset-0 hidden bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 w-full"
