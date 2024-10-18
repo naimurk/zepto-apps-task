@@ -1,7 +1,10 @@
+let animationCount = 0
 const wishListAddInWishlistPage = () => {
+  animationCount++
   const existingWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
   const wishlistContainer = document.getElementById("wishlistContainer");
   wishlistContainer.innerHTML = ``;
+
   existingWishlist?.forEach((book) => {
     const authorName = book?.authors[0]?.name || "Unknown Author";
     const coverImage = book?.formats["image/jpeg"] || "";
@@ -10,7 +13,7 @@ const wishListAddInWishlistPage = () => {
 
     // Create the card HTML with improved design and layout
     const cardHTML = `
-    <div data-aos="fade-up" data-aos-duration="3000" class="border border-gray-300 bg-white shadow-md hover:shadow-lg rounded-lg p-4 mb-6 w-full">
+    <div ${animationCount < 2 ? 'data-aos="fade-up" data-aos-duration="3000"' : ""} class="border border-gray-300 bg-white shadow-md hover:shadow-lg rounded-lg p-4 mb-6 w-full">
       
       <!-- Flex container for Book Cover and Book Information -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -53,6 +56,7 @@ const wishListAddInWishlistPage = () => {
     // Append the card to the wishlist container
     wishlistContainer.innerHTML += cardHTML;
   });
+//  console.log(animationCount)
 };
 
 const removeFromLocalStorage = (bookID) => {

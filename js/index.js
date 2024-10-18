@@ -9,35 +9,44 @@ let searchText =
   localStorage.getItem("searchTerm") === null
     ? ""
     : JSON.parse(localStorage.getItem("searchTerm"));
-// console.log(searchText);
+let animationCount = 0;
+let arr = [];
+
 const booksPerPage = 32;
 const cardContainer = document.getElementById("cardContainer");
 const loadingContainer = document.getElementById("loading");
 const bookCardContainer = document.getElementById("bookCard");
 const paginationContainer = document.getElementById("pagination");
 const errorContainer = document.getElementById("errorMessage");
-
 const searchInput = document.querySelectorAll(".searchText");
+const resetButton = document.querySelectorAll(".reset");
+const subjectDropdown = document.querySelectorAll(".selectSubject");
+const bookshelfDropdown = document.querySelectorAll(".selectBookShelf");
+const totalwishlist = document.getElementById("totalwishlist");
+
+// set the value of the search
 searchInput.forEach((el) => {
   el.value = searchText;
 });
-const resetButton = document.querySelectorAll(".reset");
 
-const subjectDropdown = document.querySelectorAll(".selectSubject");
-const bookshelfDropdown = document.querySelectorAll(".selectBookShelf");
+//  all reset buttons initialy nonoe
 resetButton.forEach((el) => {
   el.style.display = "none";
 });
+
+//  set the selected subject and bookshelf
 subjectDropdown.forEach((el) => {
   el.innerHTML = `<option value="">Select Subject</option>`;
 });
 bookshelfDropdown.forEach((el) => {
   el.innerHTML = `<option value="">Select Bookshelf</option>`;
 });
-const totalwishlist = document.getElementById("totalwishlist");
+
+//  set the initial total wishlist count
 totalwishlist.innerText =
   JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
-let arr = [];
+
+// set the url based on current page
 const urlSet = () => {
   const url = new URL(window.location);
   url.searchParams.set(
@@ -46,6 +55,9 @@ const urlSet = () => {
   );
   window.history.pushState({}, "", url);
 };
+
+
+// fetch the data from the server
 const fetchBooks = () => {
   // console.log(`Fetching data for page: ${currentPage}`); /// Add console log to see the current page
   fetch(`https://gutendex.com/books?page=${currentPage}`)
@@ -75,6 +87,7 @@ const fetchBooks = () => {
     });
 };
 
+// Error Handling
 const ErrorHandling = (msg) => {
   cardContainer.classList.add("hidden");
   loadingContainer.classList.add("hidden");
@@ -84,6 +97,7 @@ const ErrorHandling = (msg) => {
   ).innerText = `Something went wrong from the server ${msg}`;
 };
 
+// when error comes then again try to refetch the data
 const refetch = () => {
   errorContainer.classList.remove("hidden");
   window.location.reload();
@@ -144,22 +158,17 @@ const extractSubjectsAndBookshelves = (books) => {
   });
 };
 
+// when text too long the funcion do small the text 
 function truncateText(text, maxLength) {
   return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 }
+
 // Render books function
 const renderBooks = (books) => {
-  // let arr = [];
-  // console.log("hello world");
-  // console.log(books)
-  // console.log(books)
+  animationCount = animationCount + 1;
+
   // Clear the bookCardContainer
   bookCardContainer.innerHTML = ``;
-  // console.log(selectedSubject)
-  // Filter based on selected subject and bookshelf
-  //  const searchText = localStorage.getItem("se")
-  // book.title.toLowerCase().includes(searchTerm) ||
-  // book.authors[0]?.name.toLowerCase().includes(searchTerm)
 
   const filteredBooks = books?.filter((book) => {
     const matchText =
@@ -182,6 +191,7 @@ const renderBooks = (books) => {
   });
   arr = [...filteredBooks];
   //  console.log(filteredBooks)
+
   // Loop through each book in the provided data and create the card
   arr?.forEach((book) => {
     const authorName = book?.authors[0]?.name || "Unknown Author";
@@ -196,7 +206,9 @@ const renderBooks = (books) => {
 
     // Create the card HTML
     const cardHTML = `
-    <div data-aos="fade-up" data-aos-duration="3000" class="border-2 relative bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border-gray-200 rounded-lg p-3 sm:p-5 min-h-[400px] max-h-[600px] flex flex-col justify-between">
+    <div ${
+      animationCount < 6 ? 'data-aos="fade-up" data-aos-duration="3000"' : ""
+    } class="border-2 relative bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 border-gray-200 rounded-lg p-3 sm:p-5 min-h-[400px] max-h-[600px] flex flex-col justify-between">
       
       <!-- Wishlist Icon -->
       <div onclick="toggleWishlist(${bookID})" class="absolute cursor-pointer bg-indigo-100 w-8 h-8 sm:w-10 sm:h-10 p-1 sm:p-2 rounded-full flex justify-center items-center bottom-2 right-2">
@@ -273,7 +285,6 @@ const renderBooks = (books) => {
   });
 };
 
-
 // Open modal function
 function openModal() {
   document.getElementById("modal").classList.remove("hidden");
@@ -303,7 +314,7 @@ function showAllGenres(bookID) {
   openModal(); // Open modal after populating it
 }
 
-// Close Modal
+
 
 // Create pagination based on total items
 const createPagination = (totalBooks) => {
@@ -390,6 +401,7 @@ const movePage = (pageNumber) => {
   fetchBooks(); // Fetch new books for the selected page
 };
 
+// corresponding data inject in subject selector
 subjectDropdown.forEach((el) => {
   // Filter by subject
   el.addEventListener("change", (e) => {
@@ -399,6 +411,7 @@ subjectDropdown.forEach((el) => {
   });
 });
 
+// corresponding data inject in bookshelf selector
 bookshelfDropdown.forEach((el) => {
   // Filter by bookshelf
   el.addEventListener("change", (e) => {
@@ -489,4 +502,4 @@ const toggleWishlist = (bookId) => {
 fetchBooks();
 urlSet();
 
-// Initial call to fetch books
+// Initial call to fetch books and url set
