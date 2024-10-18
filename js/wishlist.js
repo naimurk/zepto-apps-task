@@ -1,4 +1,6 @@
 let animationCount = 0
+
+// render the localstorage card to the screen
 const wishListAddInWishlistPage = () => {
   animationCount++
   const existingWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -59,6 +61,7 @@ const wishListAddInWishlistPage = () => {
 //  console.log(animationCount)
 };
 
+// remove the card from the wishlist and localStorage
 const removeFromLocalStorage = (bookID) => {
   let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
   wishlist = wishlist.filter((item) => item.id !== bookID);
@@ -67,6 +70,7 @@ const removeFromLocalStorage = (bookID) => {
   totalwishlist()
 };
 
+// total wishlist count
 const totalwishlist = () => {
   const totalItems = JSON.parse(localStorage.getItem("wishlist"))?.length || 0;
   document.getElementById("totalwishlist").innerText = `Total Items : ${totalItems}`;
@@ -74,3 +78,4 @@ const totalwishlist = () => {
 
 totalwishlist();
 wishListAddInWishlistPage();
+// initially call the funcion
